@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground">
+
+    <TextView
+        android:id="@+id/tv_offline_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📡  Offline — Showing cached blogs"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:background="@color/offline_bg"
+        android:gravity="center"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:layout_gravity="top"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_blogs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="40dp"
+            android:paddingBottom="72dp"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/layout_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="🛸" android:textSize="48sp" android:layout_marginBottom="16dp"/>
+        <TextView android:id="@+id/tv_error_message" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Lost in space..."
+            android:textSize="16sp" android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center" android:layout_marginBottom="20dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="🔄  Retry"
+            style="@style/Widget.MaterialComponents.Button"/>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_margin_horizontal">12dp</dimen>
+    <dimen name="card_margin_vertical">6dp</dimen>
+    <dimen name="content_padding">16dp</dimen>
+    <dimen name="thumbnail_height">180dp</dimen>
+    <dimen name="detail_image_height">240dp</dimen>
+</resources>
