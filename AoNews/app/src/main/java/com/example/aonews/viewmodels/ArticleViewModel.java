@@ -23,6 +23,7 @@ public class ArticleViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Article>> blogsLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Article>> reportsLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Article>> bookmarksLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<String>> favoriteFactsLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isOfflineLiveData = new MutableLiveData<>(false);
@@ -40,6 +41,7 @@ public class ArticleViewModel extends AndroidViewModel {
     public LiveData<List<Article>> getBlogsLiveData() { return blogsLiveData; }
     public LiveData<List<Article>> getReportsLiveData() { return reportsLiveData; }
     public LiveData<List<Article>> getBookmarksLiveData() { return bookmarksLiveData; }
+    public LiveData<List<String>> getFavoriteFactsLiveData() { return favoriteFactsLiveData; }
     public LiveData<Boolean> getLoadingLiveData() { return loadingLiveData; }
     public LiveData<String> getErrorLiveData() { return errorLiveData; }
     public LiveData<Boolean> getIsOfflineLiveData() { return isOfflineLiveData; }
@@ -65,7 +67,6 @@ public class ArticleViewModel extends AndroidViewModel {
                         if (response.isSuccessful() && response.body() != null) {
                             List<Article> articles = response.body().getResults();
                             articlesLiveData.postValue(articles);
-                            // Save to SQLite on background thread
                             executor.execute(() -> dbHelper.saveArticles(articles, "articles"));
                         } else {
                             errorLiveData.postValue("Failed to load articles");
@@ -205,7 +206,7 @@ public class ArticleViewModel extends AndroidViewModel {
         });
     }
 
-    // ===================== BOOKMARKS =====================
+    // ===================== BOOKMARKS & FACTS =====================
 
     public void loadBookmarks() {
         executor.execute(() -> {
@@ -214,19 +215,11 @@ public class ArticleViewModel extends AndroidViewModel {
         });
     }
 
-    public void toggleBookmark(Article article) {
+    public void loadFavoriteFacts() {
         executor.execute(() -> {
-            if (dbHelper.isBookmarked(article.getId())) {
-                dbHelper.removeBookmark(article.getId());
-            } else {
-                dbHelper.addBookmark(article);
-            }
-            loadBookmarks();
+            List<String> facts = dbHelper.getAllFavoriteFacts();
+            favoriteFactsLiveData.postValue(facts);
         });
-    }
-
-    public boolean isBookmarked(int articleId) {
-        return dbHelper.isBookmarked(articleId);
     }
 
     @Override

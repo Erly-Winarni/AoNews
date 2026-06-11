@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import com.example.aonews.database.DatabaseHelper;
 import com.example.aonews.databinding.ActivityDetailBinding;
 import com.example.aonews.models.Article;
 import com.example.aonews.utils.DateUtils;
+import com.example.aonews.utils.SpaceFactProvider;
 import com.bumptech.glide.Glide;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,7 +82,9 @@ public class DetailActivity extends AppCompatActivity {
         binding.tvDetailDate.setText(DateUtils.formatDate(currentArticle.getPublishedAt()));
         binding.tvDetailSummary.setText(currentArticle.getSummary());
 
-        // Load image
+        // Setup Daily Fact Card in Detail
+        setupFactCard();
+
         if (currentArticle.getImageUrl() != null && !currentArticle.getImageUrl().isEmpty()) {
             Glide.with(this)
                     .load(currentArticle.getImageUrl())
@@ -111,6 +117,16 @@ public class DetailActivity extends AppCompatActivity {
 
         // Share button
         binding.btnShare.setOnClickListener(v -> shareArticle());
+    }
+
+    private void setupFactCard() {
+        // Daily Fact Card in Detail
+        binding.layoutFact.tvFactContent.setText(SpaceFactProvider.getDailyFact());
+        binding.layoutFact.cardDailyFact.setOnClickListener(v -> {
+            Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+            binding.layoutFact.tvFactContent.startAnimation(fadeIn);
+            binding.layoutFact.tvFactContent.setText(SpaceFactProvider.getRandomFact());
+        });
     }
 
     private void checkBookmarkStatus() {

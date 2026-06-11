@@ -1,16 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AoNews</string>
-    <string name="nav_news">News</string>
-    <string name="nav_blogs">Blogs</string>
-    <string name="nav_reports">Reports</string>
-    <string name="nav_bookmarks">Saved</string>
-    <string name="search_hint">Search space news…</string>
-    <string name="no_internet">No internet connection</string>
+    <string name="fact_of_the_day">🚀 FACT OF THE DAY</string>
+    <string name="no_articles_available">No articles available</string>
+    <string name="lost_in_space">Lost in space...</string>
+    <string name="no_internet">No internet connection detected</string>
     <string name="retry">Retry</string>
-    <string name="loading">Loading…</string>
-    <string name="read_full_article">Read Full Article</string>
-    <string name="bookmark_added">Saved to bookmarks</string>
-    <string name="bookmark_removed">Removed from bookmarks</string>
-    <string name="offline_mode">Offline — Showing cached news</string>
+    <string name="search_hint">Search space news...</string>
+    <string name="no_results">No results found</string>
 </resources>

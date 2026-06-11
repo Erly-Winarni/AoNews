@@ -43,12 +43,14 @@ public class BookmarksFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Reload bookmarks each time fragment is shown
         viewModel.loadBookmarks();
     }
 
     private void setupRecyclerView() {
         adapter = new ArticleAdapter(requireContext());
+        // Aktifkan Daily Fact di halaman Bookmarks
+        adapter.setShowFact(true);
+        
         binding.rvBookmarks.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvBookmarks.setAdapter(adapter);
 
@@ -73,8 +75,16 @@ public class BookmarksFragment extends Fragment {
                 binding.rvBookmarks.setVisibility(View.VISIBLE);
             } else {
                 adapter.clearArticles();
-                binding.rvBookmarks.setVisibility(View.GONE);
-                binding.layoutEmpty.setVisibility(View.VISIBLE);
+                // Jika tidak ada artikel, kita tetap tampilkan RecyclerView 
+                // agar kartu Daily Fact tetap muncul di atas
+                binding.rvBookmarks.setVisibility(View.VISIBLE);
+                binding.layoutEmpty.setVisibility(View.GONE);
+                
+                // Jika benar-benar ingin menunjukkan state kosong di bawah kartu fakta,
+                // kita bisa membiarkan layoutEmpty tetap muncul tapi dengan margin top.
+                if (adapter.getItemCount() == 1) { // Hanya ada kartu fakta
+                     binding.layoutEmpty.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

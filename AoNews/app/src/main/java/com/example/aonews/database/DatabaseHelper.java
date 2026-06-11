@@ -12,7 +12,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "aonews.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Table Articles
     public static final String TABLE_ARTICLES = "articles";
@@ -28,6 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table Bookmarks
     public static final String TABLE_BOOKMARKS = "bookmarks";
+
+    // Table Favorite Facts
+    public static final String TABLE_FACTS = "favorite_facts";
+    public static final String COL_FACT_TEXT = "fact_text";
 
     private static final String CREATE_ARTICLES_TABLE =
             "CREATE TABLE " + TABLE_ARTICLES + " (" +
@@ -54,6 +58,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_UPDATED_AT + " TEXT" +
             ")";
 
+    private static final String CREATE_FACTS_TABLE =
+            "CREATE TABLE " + TABLE_FACTS + " (" +
+            COL_FACT_TEXT + " TEXT PRIMARY KEY" +
+            ")";
+
     private static DatabaseHelper instance;
 
     public static synchronized DatabaseHelper getInstance(Context context) {
@@ -71,13 +80,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ARTICLES_TABLE);
         db.execSQL(CREATE_BOOKMARKS_TABLE);
+        db.execSQL(CREATE_FACTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKMARKS);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL(CREATE_FACTS_TABLE);
+        } else {
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKMARKS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTS);
+            onCreate(db);
+        }
     }
 
     // ===================== ARTICLES =====================
@@ -86,9 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
-            // Clear old articles of same type
             db.delete(TABLE_ARTICLES, COL_TYPE + "=?", new String[]{type});
-
             for (Article article : articles) {
                 ContentValues values = new ContentValues();
                 values.put(COL_ID, article.getId());
@@ -115,12 +128,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_TYPE + "=?", new String[]{type},
                 null, null, COL_PUBLISHED_AT + " DESC");
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 articles.add(cursorToArticle(cursor));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
         return articles;
     }
 
@@ -153,8 +166,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_BOOKMARKS, new String[]{COL_ID},
                 COL_ID + "=?", new String[]{String.valueOf(articleId)},
                 null, null, null);
-        boolean exists = cursor.getCount() > 0;
-        cursor.close();
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+        if (cursor != null) cursor.close();
         return exists;
     }
 
@@ -164,13 +177,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_BOOKMARKS, null, null, null,
                 null, null, COL_PUBLISHED_AT + " DESC");
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 articles.add(cursorToArticle(cursor));
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
         return articles;
+    }
+
+    // ===================== FAVORITE FACTS =====================
+
+    public boolean addFavoriteFact(String factText) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_FACT_TEXT, factText);
+        long result = db.insertWithOnConflict(TABLE_FACTS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        return result != -1;
+    }
+
+    public boolean removeFavoriteFact(String factText) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rows = db.delete(TABLE_FACTS, COL_FACT_TEXT + "=?", new String[]{factText});
+        return rows > 0;
+    }
+
+    public boolean isFactFavorite(String factText) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_FACTS, null,
+                COL_FACT_TEXT + "=?", new String[]{factText},
+                null, null, null);
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+        if (cursor != null) cursor.close();
+        return exists;
+    }
+
+    public List<String> getAllFavoriteFacts() {
+        List<String> facts = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_FACTS, null, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                facts.add(cursor.getString(cursor.getColumnIndexOrThrow(COL_FACT_TEXT)));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return facts;
     }
 
     private Article cursorToArticle(Cursor cursor) {

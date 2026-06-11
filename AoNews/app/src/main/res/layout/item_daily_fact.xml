@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_daily_fact"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_fact_card"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_fact_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fact_of_the_day"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:background="@drawable/bg_fact_label"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/tv_fact_label"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_favorite_fact"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_bookmark_outline"
+                app:tint="#FFFFFF"
+                android:contentDescription="Favorite Fact"/>
+
+            <ImageButton
+                android:id="@+id/btn_share_fact"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_share"
+                app:tint="#FFFFFF"
+                android:contentDescription="Share Fact"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_fact_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_fact_label"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="6dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="One day on Venus is longer than one year on Earth."
+            android:layout_marginEnd="20dp"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.15"
+            android:src="@drawable/ic_rocket"
+            app:tint="#FFFFFF"
+            android:layout_marginBottom="-20dp"
+            android:layout_marginEnd="-20dp"
+            android:rotation="-15"
+            android:contentDescription="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_fact_content"
+            android:layout_marginTop="12dp"
+            android:text="Tap to shuffle ✨"
+            android:textColor="#CCFFFFFF"
+            android:textSize="10sp"
+            android:textStyle="italic"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

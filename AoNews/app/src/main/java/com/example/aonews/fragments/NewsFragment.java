@@ -49,6 +49,9 @@ public class NewsFragment extends Fragment {
 
     private void setupRecyclerView() {
         adapter = new ArticleAdapter(requireContext());
+        // Aktifkan fitur Daily Fact khusus di NewsFragment
+        adapter.setShowFact(true);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         binding.rvArticles.setLayoutManager(layoutManager);
         binding.rvArticles.setAdapter(adapter);
