@@ -14,7 +14,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "aonews.db";
     private static final int DATABASE_VERSION = 2;
 
-    // Table Articles
     public static final String TABLE_ARTICLES = "articles";
     public static final String COL_ID = "id";
     public static final String COL_TITLE = "title";
@@ -26,10 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_UPDATED_AT = "updated_at";
     public static final String COL_TYPE = "type"; // articles, blogs, reports
 
-    // Table Bookmarks
     public static final String TABLE_BOOKMARKS = "bookmarks";
 
-    // Table Favorite Facts
     public static final String TABLE_FACTS = "favorite_facts";
     public static final String COL_FACT_TEXT = "fact_text";
 
@@ -95,8 +92,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ===================== ARTICLES =====================
-
     public void saveArticles(List<Article> articles, String type) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
@@ -136,8 +131,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return articles;
     }
-
-    // ===================== BOOKMARKS =====================
 
     public boolean addBookmark(Article article) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -185,8 +178,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return articles;
     }
-
-    // ===================== FAVORITE FACTS =====================
 
     public boolean addFavoriteFact(String factText) {
         SQLiteDatabase db = this.getWritableDatabase();

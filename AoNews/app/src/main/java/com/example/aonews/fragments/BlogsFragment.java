@@ -21,7 +21,6 @@ public class BlogsFragment extends Fragment {
     private FragmentBlogsBinding binding;
     private ArticleViewModel viewModel;
     private ArticleAdapter adapter;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

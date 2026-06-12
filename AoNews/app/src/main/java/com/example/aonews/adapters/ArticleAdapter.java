@@ -90,7 +90,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof FactViewHolder) {
             ((FactViewHolder) holder).bind();
-            // Entrance animation for fact card
             setAnimation(holder.itemView);
         } else if (holder instanceof ArticleViewHolder) {
             int articlePos = showFact ? position - 1 : position;
@@ -110,7 +109,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         int count = articles.size();
-        if (showFact) count++; // Always show fact if requested
+        if (showFact) count++;
         return count;
     }
 

@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Tambahkan ini untuk izin membuka Browser di Android 11+ -->
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -22,16 +21,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AoNews"
         android:name=".AoNewsApplication">
 
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AoNews.Splash"
-            android:noHistory="true">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,9 +36,10 @@
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
+            android:name=".activities.SplashActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AoNews.Splash"
+            android:noHistory="true" />
 
         <activity
             android:name=".activities.DetailActivity"

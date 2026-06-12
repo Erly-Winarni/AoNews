@@ -12,9 +12,8 @@ public class AoNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Apply saved theme on startup
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        boolean isDarkMode = prefs.getBoolean(KEY_DARK_MODE, true); // Default dark for space theme
+        boolean isDarkMode = prefs.getBoolean(KEY_DARK_MODE, true);
         AppCompatDelegate.setDefaultNightMode(
                 isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );

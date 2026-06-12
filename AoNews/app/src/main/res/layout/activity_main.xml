@@ -43,4 +43,11 @@
         app:labelVisibilityMode="labeled"
         app:elevation="8dp"/>
 
+    <!-- Splash Screen Overlay -->
+    <include
+        android:id="@+id/layout_splash"
+        layout="@layout/activity_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

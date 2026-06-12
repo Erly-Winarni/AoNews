@@ -27,8 +27,6 @@ public class Article {
 
     @SerializedName("updated_at")
     private String updatedAt;
-
-    // Constructor kosong untuk SQLite
     public Article() {}
 
     public Article(int id, String title, String url, String imageUrl,
@@ -42,8 +40,6 @@ public class Article {
         this.publishedAt = publishedAt;
         this.updatedAt = updatedAt;
     }
-
-    // Getters
     public int getId() { return id; }
     public String getTitle() { return title; }
     public String getUrl() { return url; }
@@ -52,8 +48,6 @@ public class Article {
     public String getSummary() { return summary; }
     public String getPublishedAt() { return publishedAt; }
     public String getUpdatedAt() { return updatedAt; }
-
-    // Setters
     public void setId(int id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setUrl(String url) { this.url = url; }

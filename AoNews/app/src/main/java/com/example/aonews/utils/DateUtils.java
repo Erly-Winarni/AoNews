@@ -17,7 +17,6 @@ public class DateUtils {
             Date date = inputFormat.parse(dateString);
             if (date != null) return outputFormat.format(date);
         } catch (ParseException e) {
-            // Try alternative format
             try {
                 SimpleDateFormat altFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
                 altFormat.setTimeZone(TimeZone.getTimeZone("UTC"));

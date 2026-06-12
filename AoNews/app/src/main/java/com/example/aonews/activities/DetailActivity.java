@@ -54,13 +54,10 @@ public class DetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("");
         }
 
-        // Get article data from Intent
         extractArticleFromIntent();
 
-        // Setup UI
         setupUI();
 
-        // Check bookmark status on background thread
         checkBookmarkStatus();
     }
 
@@ -82,7 +79,6 @@ public class DetailActivity extends AppCompatActivity {
         binding.tvDetailDate.setText(DateUtils.formatDate(currentArticle.getPublishedAt()));
         binding.tvDetailSummary.setText(currentArticle.getSummary());
 
-        // Setup Daily Fact Card in Detail
         setupFactCard();
 
         if (currentArticle.getImageUrl() != null && !currentArticle.getImageUrl().isEmpty()) {
@@ -96,7 +92,6 @@ public class DetailActivity extends AppCompatActivity {
             binding.ivDetailImage.setImageResource(R.drawable.placeholder_space);
         }
 
-        // Open in browser button using Custom Tabs
         binding.btnOpenInBrowser.setOnClickListener(v -> {
             String url = currentArticle.getUrl();
             if (url != null && !url.isEmpty()) {
@@ -106,7 +101,6 @@ public class DetailActivity extends AppCompatActivity {
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(this, Uri.parse(url));
                 } catch (Exception e) {
-                    // Fallback to normal browser if Custom Tabs fail
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                 }
@@ -115,12 +109,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        // Share button
         binding.btnShare.setOnClickListener(v -> shareArticle());
     }
 
     private void setupFactCard() {
-        // Daily Fact Card in Detail
         binding.layoutFact.tvFactContent.setText(SpaceFactProvider.getDailyFact());
         binding.layoutFact.cardDailyFact.setOnClickListener(v -> {
             Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
